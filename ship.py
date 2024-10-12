@@ -1,4 +1,8 @@
 
+# The ship.py file contains the Ship class. The Ship class has an __init__() method, 
+# an update() method to manage the ship’s position, and a blitme() method to draw the ship to the screen. 
+# The image of the ship is stored inship.bmp, which is in the images folder.
+
 import pygame
 from pygame.sprite import Sprite
 
@@ -40,6 +44,7 @@ class Ship(Sprite):
 
 # Update the ship's position based on the movement flag.
 # Update the ship's x value, not the rect.
+# If this value is less than the value returned by self.screen_rect.right, the ship hasn’t reached the right edge of the screen
 
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.x += self.settings.ship_speed
@@ -60,6 +65,7 @@ class Ship(Sprite):
     def center_ship(self):
 
 # Center the ship on the screen.
+# Start each new ship at the bottom center of the screen.
 
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)

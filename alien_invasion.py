@@ -1,4 +1,6 @@
-#------------------------------------------------------  Creating a Pygame Window and Responding to User Input ---------------------------------------
+# The while loop calls_check_events(), ship.update(), and _update_screen().The _check_events() method detects relevant events, such as 
+# keypresses and releases, and processes each of these types of events through the methods _check_keydown_events() and _check_keyup_events(). For now, 
+# these methods manage the ship’s movement. The AlienInvasion class also contains _update_screen(), which redraws the screen on each pass through the main loop
 
 import sys
 from time import sleep
@@ -25,6 +27,8 @@ class AlienInvasion:
 
     self.settings = Settings()
 
+# To run the game in fullscreen mode, make the following changes
+
     self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     self.settings.screen_width = self.screen.get_rect().width
     self.settings.screen_height = self.screen.get_rect().height
@@ -34,8 +38,8 @@ class AlienInvasion:
     
     pygame.display.set_caption("Alien Invasion")
 
-    # Create an instance to store game statistics,
-    # and create a scoreboard.
+# Create an instance to store game statistics, and create a scoreboard.
+
     self.stats = GameStats(self)
     self.sb = Scoreboard(self)
 
@@ -44,32 +48,35 @@ class AlienInvasion:
     self.aliens = pygame.sprite.Group()
     self._create_fleet()
 
-    # Make the Play button.
+# Make the Play button.
+
     self.play_button = Button(self, "Play")
 
  def _create_fleet(self):
- #"""Create the fleet of aliens."""
- # Create an alien and find the number of aliens in a row.
- # Spacing between each alien is equal to one alien width.
+
+#Create the fleet of aliens.
+# Create an alien and find the number of aliens in a row.
+# Spacing between each alien is equal to one alien width.
+
     alien = Alien(self)
     alien_width, alien_height = alien.rect.size
     available_space_x = self.settings.screen_width - (2 * alien_width)
     number_aliens_x = available_space_x // (2 * alien_width)
 
- # Determine the number of rows of aliens that fit on the screen.
+# Determine the number of rows of aliens that fit on the screen.
 
     ship_height = self.ship.rect.height
     available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
     number_rows = available_space_y // (2 * alien_height)
 
- # Create the full fleet of aliens.
+# Create the full fleet of aliens.
     for row_number in range(number_rows):
       for alien_number in range(number_aliens_x):
         self._create_alien(alien_number, row_number)
 
  def _create_alien(self, alien_number, row_number):
      
- #"""Create an alien and place it in the row."""
+ #Create an alien and place it in the row.
 
     alien = Alien(self)
     alien_width, alien_height = alien.rect.size
@@ -80,7 +87,7 @@ class AlienInvasion:
 
  def _check_fleet_edges(self):
 
- #"""Respond appropriately if any aliens have reached an edge."""
+ #Respond appropriately if any aliens have reached an edge.
 
     for alien in self.aliens.sprites():
         if alien.check_edges():
@@ -112,11 +119,6 @@ class AlienInvasion:
 
         self._update_screen()
         
- 
- # Start the main loop for the game.
-
-
-
  # Watch for keyboard and mouse events.
 
 #pygame.event.get() is used to check for user inputs like keyboard or mouse events.
@@ -126,15 +128,19 @@ class AlienInvasion:
 
  def _check_events(self):
      
- #"""Respond to keypresses and mouse events."""
+#Respond to keypresses and mouse events.
 
         for event in pygame.event.get():
        
             if event.type == pygame.QUIT:
-# called to exit the game.   For example, when the player clicks the game window’s close button, a pygame.QUIT event is detected
+
+# called to exit the game.For example, when the player clicks the game window’s close button, a pygame.QUIT event is detected
 # and we call sys.exit() to exit the gam  
 
                 sys.exit()
+
+# stop the movement releasing keys and move the ship to ether left or right
+
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
 
@@ -178,11 +184,16 @@ class AlienInvasion:
 
 
  def _check_keydown_events(self, event):
- # """Respond to keypresses."""
+
+ # Respond to keypresses.
+
     if event.key == pygame.K_RIGHT:
         self.ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         self.ship.moving_left = True
+
+#  add akeyboard shortcut to end the game when the player presses Q
+
     elif event.key == pygame.K_q:
         sys.exit()
     elif event.key == pygame.K_SPACE:
@@ -309,6 +320,8 @@ class AlienInvasion:
  def _update_screen(self):
 
 # Redraw the screen during each pass through the loop.
+
+# Update images on the screen, and flip to the new screen.
 
     self.screen.fill(self.settings.bg_color)
 

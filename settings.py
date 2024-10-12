@@ -1,4 +1,5 @@
-#------------------------------------------------------  Creating a Settings Class ---------------------------------------------------------------------
+# The settings.py file contains the Settings class. This class only has an __init__() method, 
+# which initializes attributes controlling the game’s appearance and the ship’s speed.
 
 class Settings:
  
