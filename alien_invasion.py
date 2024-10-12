@@ -13,14 +13,18 @@ from alien import Alien
 
 class AlienInvasion:
  
-# """Overall class to manage game assets and behavior."""
+# Overall class to manage game assets and behavior.
 
  def __init__(self):
 
- # """Initialize the game, and create game resources."""
+# Initialize the game, and create game resources.
 
     pygame.init()
+
+# create an instance of Settings and assign it to self.settings
+
     self.settings = Settings()
+
     self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     self.settings.screen_width = self.screen.get_rect().width
     self.settings.screen_height = self.screen.get_rect().height
@@ -157,6 +161,8 @@ class AlienInvasion:
         self.stats.game_active = True
         self.sb.prep_score()
         self.sb.prep_level()
+        self.sb.prep_ships()
+
 
 
         # Get rid of any remaining aliens and bullets.
@@ -238,7 +244,7 @@ class AlienInvasion:
 
  def _check_aliens_bottom(self):
      
- #"""Check if any aliens have reached the bottom of the screen."""
+ #Check if any aliens have reached the bottom of the screen.
 
     screen_rect = self.screen.get_rect()
     for alien in self.aliens.sprites():
@@ -249,20 +255,25 @@ class AlienInvasion:
 
  def _ship_hit(self):
      
- #"""Respond to the ship being hit by an alien."""
-    if self.stats.ships_left > 0:
- # Decrement ships_left.
-        self.stats.ships_left -= 1  
+#Respond to the ship being hit by an alien.
 
-    # Get rid of any remaining aliens and bullets.
+    if self.stats.ships_left > 0:
+
+# Decrement ships_left, and update scoreboard.
+
+        self.stats.ships_left -= 1  
+        self.sb.prep_ships()
+
+# Get rid of any remaining aliens and bullets.
+
         self.aliens.empty()
         self.bullets.empty()
 
-    # Create a new fleet and center the ship.
+# Create a new fleet and center the ship.
         self._create_fleet()
         self.ship.center_ship()
 
-    # Pause.
+# Pause.
         sleep(0.5)
 
     else:
@@ -271,17 +282,18 @@ class AlienInvasion:
 
  def _update_aliens(self):
      
- # """Update the positions of all aliens in the fleet."""
+ # Update the positions of all aliens in the fleet.
  # Check if the fleet is at an edge, then update the positions of all aliens in the fleet.
+
     self._check_fleet_edges()
     self.aliens.update()
 
-    # Look for alien-ship collisions.
+# Look for alien-ship collisions.
     if pygame.sprite.spritecollideany(self.ship, self.aliens):
         self._ship_hit()
         print("Ship hit!!!")
 
-    # Look for aliens hitting the bottom of the screen.
+# Look for aliens hitting the bottom of the screen.
     self._check_aliens_bottom()
 
  
@@ -291,12 +303,12 @@ class AlienInvasion:
 
  # Make the most recently drawn screen visible.
 
- # The call to pygame.display.flip() at z tells Pygame to make the most recently drawn screen visible. In this case, it simply draws an empty screen
+# The call to pygame.display.flip() at z tells Pygame to make the most recently drawn screen visible. In this case, it simply draws an empty screen
 # on each pass through the while loop, erasing the old screen so only the new screen is visible.
 
  def _update_screen(self):
 
-    # Redraw the screen during each pass through the loop.
+# Redraw the screen during each pass through the loop.
 
     self.screen.fill(self.settings.bg_color)
 
@@ -309,20 +321,23 @@ class AlienInvasion:
     
     self.aliens.draw(self.screen)
 
-    # Draw the score information.
+# Draw the score information.
+
     self.sb.show_score()
 
-    # Draw the play button if the game is inactive.
+# Draw the play button if the game is inactive.
+
     if not self.stats.game_active:
         self.play_button.draw_button()
     
- # Make the most recently drawn screen visible.
+# Make the most recently drawn screen visible.
+
     pygame.display.flip()
 
 
 if __name__ == '__main__':
  
- # Make a game instance, and run the game.
+# Make a game instance, and run the game.
 
  ai = AlienInvasion()
  ai.run_game()
