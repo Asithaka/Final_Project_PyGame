@@ -78,5 +78,7 @@ class Settings:
    self.ship_speed *= self.speedup_scale
    self.bullet_speed *= self.speedup_scale
    self.alien_speed *= self.speedup_scale
+
+# we’ll add code to increase the point value when the game’s speed increases:
    self.alien_points = int(self.alien_points * self.score_scale)
-   print(self.alien_points)
+   # print(self.alien_points)

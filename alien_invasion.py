@@ -183,6 +183,9 @@ class AlienInvasion:
         self.stats.game_active = True
         self.sb.prep_score()
         self.sb.prep_level()
+
+# To show the player how many ships they have to start with, we call prep_ships() when a new game starts. We do this in _check_play_button() 
+
         self.sb.prep_ships()
 
 
@@ -260,12 +263,15 @@ class AlienInvasion:
     collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
     
+# We multiply the value of each alien by the number of aliens in each list and add this amount to the current score
 
     if collisions:
         for aliens in collisions.values():
             self.stats.score += self.settings.alien_points * len(aliens)
 
         self.sb.prep_score()
+
+# We need to call check_high_score() each time an alien is hit after updating the score
         self.sb.check_high_score()
 
     
@@ -280,6 +286,8 @@ class AlienInvasion:
         self.settings.increase_speed()
 
         # Increase level.
+# We’ll increment stats.level and update the level image 
+
         self.stats.level += 1
         self.sb.prep_level()
 
@@ -306,6 +314,7 @@ class AlienInvasion:
     if self.stats.ships_left > 0:
 
 # Decrement ships_left, and update scoreboard.
+# We also call prep_ships() when a ship is hit to update the display of ship images when the player loses a ship:
 
         self.stats.ships_left -= 1  
         self.sb.prep_ships()

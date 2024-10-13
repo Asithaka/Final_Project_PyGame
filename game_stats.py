@@ -21,6 +21,9 @@ class GameStats:
     # High score should never be reset.
 
     self.high_score = 0
+
+   # To display the player’s level in the game, we first need an attribute in GameStats representing the current level.
+   
     self.level = 1
 
  def reset_stats(self):
