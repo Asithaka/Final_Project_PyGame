@@ -1,3 +1,6 @@
+
+# Creating the Alien Class
+
 import pygame
 from pygame.sprite import Sprite
 

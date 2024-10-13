@@ -22,10 +22,15 @@ class Settings:
 
     # Bullet settings
 
+    # These settings create dark gray bullets with a width of 3 pixels and a height of 15 pixels. The bullets will travel slightly slower than the ship
+
     #self.bullet_speed = 1.5
     self.bullet_width = 3
     self.bullet_height = 15
     self.bullet_color = (60, 60, 60)
+
+    # This limits the player to three bullets at a time.
+    
     self.bullets_allowed = 3
 
     # Alien settings

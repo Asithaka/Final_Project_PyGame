@@ -44,8 +44,13 @@ class AlienInvasion:
     self.sb = Scoreboard(self)
 
     self.ship = Ship(self)
+
+# We’ll use this group to draw bullets to the screen on each pass through the main loop and to update each bullet’s position
     self.bullets = pygame.sprite.Group()
     self.aliens = pygame.sprite.Group()
+
+# We create a group to hold the fleet of aliens, and we call _create_fleet()
+
     self._create_fleet()
 
 # Make the Play button.
@@ -57,6 +62,7 @@ class AlienInvasion:
 #Create the fleet of aliens.
 # Create an alien and find the number of aliens in a row.
 # Spacing between each alien is equal to one alien width.
+# Each alien is pushed to the right one alien width from the left margin. Next, we multiply the alien width by 2 to account for the space each alien takes up
 
     alien = Alien(self)
     alien_width, alien_height = alien.rect.size
@@ -196,6 +202,9 @@ class AlienInvasion:
 
     elif event.key == pygame.K_q:
         sys.exit()
+
+# fire a bullet when the player presses the spacebar
+
     elif event.key == pygame.K_SPACE:
          self._fire_bullet()
 
@@ -208,16 +217,23 @@ class AlienInvasion:
         self.ship.moving_left = False
  
  def _fire_bullet(self):
- # """Create a new bullet and add it to the bullets group."""
+ # Create a new bullet and add it to the bullets group.
+
+# When the player presses the spacebar, we check the length of bullets. If len(self.bullets) is less than three, we create a new bullet.
+
     if len(self.bullets) < self.settings.bullets_allowed:
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
 
  def _update_bullets(self):
- # """Update position of bullets and get rid of old bullets."""
+ # Update position of bullets and get rid of old bullets.
  # Update bullet positions.
+
     self.bullets.update()
+
  # Get rid of bullets that have disappeared.
+ # To do this, we need to detect when the bottom value of a bullet’s rect has a value of 0, which indicates the bullet has passed off the top of the screen
+
     for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
@@ -331,6 +347,8 @@ class AlienInvasion:
 
     for bullet in self.bullets.sprites():
         bullet.draw_bullet()
+
+# To make the alien appear, we need to call the group’s draw() method in _update_screen():
     
     self.aliens.draw(self.screen)
 
