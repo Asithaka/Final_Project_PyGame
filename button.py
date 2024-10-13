@@ -1,11 +1,12 @@
 import pygame.font
 
+#Because Pygame doesn’t have a built-in method for making buttons, we’ll write a Button class to create a filled rectangle with a label.
 
 class Button:
 
     def __init__(self, ai_game, msg):
 
-       # """Initialize button attributes."""
+       # Initialize button attributes.
 
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
@@ -25,13 +26,16 @@ class Button:
 
     def _prep_msg(self, msg):
        
- # """Turn msg into a rendered image and center text on the button."""
+ # Turn msg into a rendered image and center text on the button.
+
         self.msg_image = self.font.render(msg, True, self.text_color,
         self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
 
     def draw_button(self):
+        
+ # Finally, we create a draw_button() method that we can call to display the button onscreen
  # Draw blank button and then draw message.
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)

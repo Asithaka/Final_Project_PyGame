@@ -30,12 +30,14 @@ class Settings:
     self.bullet_color = (60, 60, 60)
 
     # This limits the player to three bullets at a time.
-    
+
     self.bullets_allowed = 3
 
     # Alien settings
 
     #self.alien_speed = 1.0
+
+    # The setting fleet_drop_speed controls how quickly the fleet drops down the screen each time an alien reaches either edge
     self.fleet_drop_speed = 10
 
     # How quickly the game speeds up
@@ -62,8 +64,12 @@ class Settings:
    self.fleet_direction = 1
 
    # Scoring
+# Updating the Score as Aliens Are Shot Down
 
    self.alien_points = 50
+
+
+# To increase the speeds of the ship, bullets, and aliens each time the player reaches a new level, we’ll write a new method called increase_speed():
 
  def increase_speed(self):
 

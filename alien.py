@@ -43,6 +43,8 @@ class Alien(Sprite):
     def update(self):
         
 # Move the alien right or left.
+# We track the alien’s exact position with the self.x attribute, which can hold decimal values . We then use the
+# value of self.x to update the position of the alien’s rect .
 
       self.x += (self.settings.alien_speed *
       self.settings.fleet_direction)

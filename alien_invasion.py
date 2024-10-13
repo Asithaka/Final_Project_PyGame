@@ -54,6 +54,7 @@ class AlienInvasion:
     self._create_fleet()
 
 # Make the Play button.
+# This code creates an instance of Button with the label Play, but it doesn’t draw the button to the screen.
 
     self.play_button = Button(self, "Play")
 
@@ -101,7 +102,9 @@ class AlienInvasion:
             break
 
  def _change_fleet_direction(self):
- #"""Drop the entire fleet and change the fleet's direction."""
+
+ #Drop the entire fleet and change the fleet's direction.
+
     for alien in self.aliens.sprites():
         alien.rect.y += self.settings.fleet_drop_speed
     self.settings.fleet_direction *= -1
@@ -153,6 +156,9 @@ class AlienInvasion:
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
 
+# Pygame detects a MOUSEBUTTONDOWN event when the player clicks
+# but we want to restrict our game to respond to mouse clicks only on the Play button
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
@@ -160,7 +166,7 @@ class AlienInvasion:
  
  def _check_play_button(self, mouse_pos):
 
-# """Start a new game when the player clicks Play."""
+# Start a new game when the player clicks Play.
     #if self.play_button.rect.collidepoint(mouse_pos):
 
     button_clicked = self.play_button.rect.collidepoint(mouse_pos)
@@ -168,7 +174,11 @@ class AlienInvasion:
 
         # Reset the game settings.
         self.settings.initialize_dynamic_settings()
-        # Reset the game statistics.
+
+# To reset the game each time the player clicks Play, we need to reset the game statistics, clear out the old aliens 
+# and bullets, build a new fleet, and center the ship
+# Reset the game statistics.
+
         self.stats.reset_stats()
         self.stats.game_active = True
         self.sb.prep_score()
@@ -241,7 +251,8 @@ class AlienInvasion:
     self._check_bullet_alien_collisions()
 
  def _check_bullet_alien_collisions(self):
- #"""Respond to bullet-alien collisions."""
+
+ # Respond to bullet-alien collisions.
  # Remove any bullets and aliens that have collided.               
 
 # Check for any bullets that have hit aliens.
@@ -249,6 +260,7 @@ class AlienInvasion:
     collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
     
+
     if collisions:
         for aliens in collisions.values():
             self.stats.score += self.settings.alien_points * len(aliens)
@@ -258,7 +270,11 @@ class AlienInvasion:
 
     
     if not self.aliens:
+
  # Destroy existing bullets and create new fleet.
+ # we check whether the aliens group is empty. An empty group evaluates to False, so this is a simple way to check whether the group is empty.
+ # If it is, we get rid of any existing bullets by using the empty() method, which removes all the remaining sprites from a group .
+
         self.bullets.empty()
         self._create_fleet()
         self.settings.increase_speed()
@@ -279,6 +295,9 @@ class AlienInvasion:
  # Treat this the same as if the ship got hit.
             self._ship_hit()
             break
+
+# When an alien hits the ship, we’ll subtract one from the number of ships left, destroy all existing aliens and bullets, 
+# create a new fleet, and reposition the ship in the middle of the screen. 
 
  def _ship_hit(self):
      
@@ -303,6 +322,8 @@ class AlienInvasion:
 # Pause.
         sleep(0.5)
 
+# Now we add code to _ship_hit() that sets game_active to False when the player has used up all their ships
+
     else:
         self.stats.game_active = False
         pygame.mouse.set_visible(True)
@@ -316,6 +337,7 @@ class AlienInvasion:
     self.aliens.update()
 
 # Look for alien-ship collisions.
+
     if pygame.sprite.spritecollideany(self.ship, self.aliens):
         self._ship_hit()
         print("Ship hit!!!")
@@ -353,10 +375,12 @@ class AlienInvasion:
     self.aliens.draw(self.screen)
 
 # Draw the score information.
+# we draw the scoreboard onscreen in _update_screen():
 
     self.sb.show_score()
 
 # Draw the play button if the game is inactive.
+#  We’ll call the button’s draw_button() method Play button visible 
 
     if not self.stats.game_active:
         self.play_button.draw_button()

@@ -1,14 +1,18 @@
+
+#To display the score on the screen, we first create a new class, Scoreboard. For now, this class will just display the current score, but eventually we’ll use
+# it to report the high score, level, and number of ships remaining as well.
+
 import pygame.font
 from pygame.sprite import Group
 from ship import Ship
 
 class Scoreboard:
  
- # """A class to report scoring information."""
+ # A class to report scoring information.
 
  def __init__(self, ai_game):
   
- #"""Initialize scorekeeping attributes."""
+ #Initialize scorekeeping attributes.
     self.ai_game = ai_game
     self.screen = ai_game.screen
     self.screen_rect = self.screen.get_rect()
@@ -26,9 +30,12 @@ class Scoreboard:
     self.prep_ships()
 
 
+# To turn the text to be displayed into an image, we call prep_score() 
+
  def prep_score(self):
     
- # """Turn the score into a rendered image."""
+ # Turn the score into a rendered image.
+
     rounded_score = round(self.stats.score, -1)
     #score_str = str(self.stats.score)
     score_str = "{:,}".format(rounded_score)
@@ -36,14 +43,18 @@ class Scoreboard:
             self.text_color, self.settings.bg_color)
 
     # Display the score at the top right of the screen.
+
     self.score_rect = self.score_image.get_rect()
     self.score_rect.right = self.screen_rect.right - 20
     self.score_rect.top = 20
 
 
+# Then we create a show_score() method to display the rendered score image:
+
  def show_score(self):
    
- # """Draw score to the screen."""
+ # Draw score to the screen.
+
     self.screen.blit(self.score_image, self.score_rect)
     self.screen.blit(self.high_score_image, self.high_score_rect)
     self.screen.blit(self.level_image, self.level_rect)
